@@ -9,19 +9,19 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 # Локаторы элементов формы на странице
-LOGIN_INPUT     = (By.ID, "login-input")
-PASSWORD_INPUT  = (By.ID, "password-input")
-SUBMIT_BUTTON   = (By.ID, "submit-button")
-STATUS_MESSAGE  = (By.ID, "error-message")
+LOGIN_INPUT = (By.ID, "login-input")
+PASSWORD_INPUT = (By.ID, "password-input")
+SUBMIT_BUTTON = (By.ID, "submit-button")
+STATUS_MESSAGE = (By.ID, "error-message")
 
 
 @pytest.fixture
 def driver():
     """Фикстура для инициализации и закрытия браузера."""
-    #options = webdriver.ChromeOptions()
-    #options.add_argument("--headless")  # Фоновый режим для CI/CD
-    #options.add_argument("--window-size=1920,1080")    
-    #driver = webdriver.Chrome(options=options)
+    # options = webdriver.ChromeOptions()
+    # options.add_argument("--headless")  # Фоновый режим для CI/CD
+    # options.add_argument("--window-size=1920,1080")
+    # driver = webdriver.Chrome(options=options)
 
     driver = webdriver.Chrome()
     driver.maximize_window()
@@ -38,8 +38,8 @@ def driver():
     [
         # --- ПОЗИТИВНЫЕ СЦЕНАРИИ ---
         ("qaguru@qa.guru", "qaguru", "positive", "Вы успешно вошли"),
-        ("QAGURU@QA.GURU", "qaguru", "positive", "Вы успешно вошли"), 
-        
+        ("QAGURU@QA.GURU", "qaguru", "positive", "Вы успешно вошли"),
+
         # --- НЕГАТИВНЫЕ СЦЕНАРИИ ---
         ("qaguru@qa.guru", "wrong_pass", "negative", "Неверный пароль"),
         ("unknown@qa.guru", "qaguru", "negative", "Такого пользователя не существует"),
@@ -54,25 +54,25 @@ def driver():
 )
 def test_login_form(driver, email, password, scenario_type, expected_text):
     """Тест кейс, принимающий наборы данных (DDT)."""
-    
+
     # 1. Открытие тестируемой страницы
     driver.get("https://qa-guru.github.io/one-page-form/login.html")
-    
+
     # 2. Поиск элементов формы
-    email_field = driver.find_element(*LOGIN_INPUT)    
-    password_field = driver.find_element(*PASSWORD_INPUT)    
+    email_field = driver.find_element(*LOGIN_INPUT)
+    password_field = driver.find_element(*PASSWORD_INPUT)
     submit_button = driver.find_element(*SUBMIT_BUTTON)
-    
+
     # 3. Очистка полей и ввод тестовых данных
     email_field.clear()
     email_field.send_keys(email)
-    
+
     password_field.clear()
     password_field.send_keys(password)
-    
+
     # 4. Клик по кнопке отправки формы
     submit_button.click()
-    
+
     # 5. Ожидание появления ответа
     actual_result = driver.find_element(*STATUS_MESSAGE).text
 
@@ -95,6 +95,6 @@ def test_login_form(driver, email, password, scenario_type, expected_text):
 
     # 6. Проверка результата (Assertion)
     if scenario_type == "positive":
-        assert expected_text in actual_result, f"Ожидался успешный вход, но получено: '{actual_result}'" #"Wrong login or password"
+        assert expected_text in actual_result, f"Ожидался успешный вход, но получено: '{actual_result}'"  # "Wrong login or password"
     else:
-        assert expected_text in actual_result or driver.current_url != "success_url",  f"Форма пропустила некорректные данные: Email='{email}', Pass='{password}'"
+        assert expected_text in actual_result or driver.current_url != "success_url", f"Форма пропустила некорректные данные: Email='{email}', Pass='{password}'"
