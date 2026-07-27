@@ -1,31 +1,17 @@
-import time
-
-import pytest
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
-
-from the_simplest_test_login import SUBMIT_BUTTON
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 USERNAME_INPUT = (By.ID, "userName")
 USER_EMAIL_INPUT = (By.ID, "userEmail")
 CURRENT_ADDRESS_INPUT = (By.ID, "currentAddress")
 PERMANENT_ADDRESS_INPUT = (By.ID, "permanentAddress")
+SUBMIT_BUTTON = (By.ID, "submit")
+OUTPUT_BLOCK = (By.ID, "output")
 
 
-@pytest.fixture()
-def driver():
-    # Инициализация браузера
-    driver = webdriver.Chrome()
-    driver.maximize_window()
-    driver.implicitly_wait(5)
-    yield driver
-    driver.quit()
-
-
-def field_fills(driver):
+def test_field_fills(driver):
     # 1. Открытие тестовой страницы
     driver.get("https://qa-guru.github.io/one-page-form/text-box.html")
 
@@ -52,7 +38,7 @@ def field_fills(driver):
     )
 
     # 4. Ожидание появления блока с результатами (id="output")
-    output_block = fluent_wait.until(EC.visibility_of_element_located((By.ID, "output")))
+    output_block = fluent_wait.until(EC.visibility_of_element_located(OUTPUT_BLOCK))
 
     # 5. Проверка результата
     print("Тест успешно пройден! Блок с результатами появился.")
