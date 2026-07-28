@@ -1,0 +1,17 @@
+from selenium.webdriver.common.by import By
+
+FIRSTNAME_INPUT = (By.ID, "firstName")
+LASTNAME_INPUT = (By.ID, "lastName")
+USER_EMAIL_INPUT = (By.ID, "userEmail")
+GENDER_MALE_LABEL = (By.CSS_SELECTOR, "label[for='gender-radio-1']")
+USER_NUMBER_INPUT = (By.ID, "userNumber")
+DATE_INPUT = (By.ID, "dateOfBirthInput")
+DATE_PICKER = (By.ID, "datepickerRoot")
+MONTH_SELECT = (By.CLASS_NAME, "react-datepicker__month-select")
+YEAR_SELECT = (By.CLASS_NAME, "react-datepicker__year-select")
+SUBJECTS_INPUT = (By.ID, "subjectsInput")
+UPLOAD_INPUT = (By.ID, "uploadPicture")
+CURRENT_ADDRESS_INPUT = (By.ID, "currentAddress")
+STATE_DROPDOWN = (By.ID, "state")
+CITY_DROPDOWN = (By.ID, "city")
+SUBMIT_BUTTON = (By.ID, "submit")
